@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册表单</title>
+</head>
+<body>
+    <div>
+        <form method="post">
+            <label for="username">账号:</label><input type="text" placeholder="请输入您的用户名" id="username"><br>
+            <label for="password">密码:</label><input type="password" placeholder="请输入您的密码" id="password"><br>
+            <label for="mail">邮箱:</label><input type="email" placeholder="请输入您的邮箱" id="mail">
+            <select>
+                <option>qq.com</option>
+                <option>123.com</option>
+                <option>gmail.com</option>
+            </select>
+                    <br>
+            性别:
+                <label><input type="radio" name="gender" value="men" checked>男</label>
+                <label><input type="radio" name="gender" value="women">女</label><br>
+            爱好:
+                <input type="checkbox" name="habit" value="book">看书
+                <input type="checkbox" name="habit" value="music">听歌
+                <input type="checkbox" name="habit" value="run">跑步
+                <input type="checkbox" name="habit" value="ball">打球<br>
+            个人简介:<br>
+                <textarea rows="5" cols="20" placeholder="请介绍一下您"></textarea><br>
+            上传个人照片:<br>
+                <input type="file"><br>
+            <input type="submit" value ="提交">
+            <input type="reset" value ="重置">
+        </form>
+    </div>
+</body>
+</html>
