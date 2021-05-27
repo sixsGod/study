@@ -44,11 +44,15 @@
 > git push -u origin master推送至master分支
 ### Github
 
+
+
 My page -> https://github.com/sixsGod
 
 GitHubFlavored Markdown（GFM）
 
-https://github.com/sixsGod/test.git
+git clone https://github.com/sixsGod/study.git
+
+
 
 ```
 # create a new repository on the command line
@@ -69,3 +73,4 @@ git branch -M main
 git push -u origin main
 ```
 
+master
