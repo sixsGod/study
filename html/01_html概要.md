@@ -16,6 +16,7 @@
 ### html标签学习
 
 1. 基础标签
+```html
 	<!DOCTYPE html> 定义文档类型
 	<html><!--定义一个 HTML 文档-->
 	<titie><!--为文档定义一个标题-->
@@ -25,8 +26,10 @@
 	<br><!--定义简单的折行-->
 	<hr><!--定义水平线-->
 	<!--...--> 定义一个注释
+```
 	
 2. 表单标签
+```html
 	<form>定义一个 HTML 表单，用于用户输入
 	<input>定义一个输入控件
 	<textarea>定义多行的文本输入控件
@@ -40,8 +43,10 @@
 	<datalist>规定了 input 元素可能的选项列表
 	<keygen>规定用于表单的密钥对生成器字段
 	<output>定义一个计算的结果
+```
 
 3. 图片标签
+```html
 	<img>定义图像
 	- alt规定图像的替代文本
 	- height规定图像的高度
@@ -49,13 +54,17 @@
 	- src规定显示图像的 URL
 	<map>定义图像映射
 	<area>定义图像地图内部的区域
+```
 
 4. 列表标签
+```html
 	<ul>定义一个无序列表unorder list
 	<ol>定义一个有序列表order list
 	<li>定义一个列表项
 	<menu>定义菜单列表
+```
 5. 表格标签
+```html
 	<tablel>定义一个表格
 	<caption>定义表格标题
 	<th>定义表格中的表头单元格
@@ -66,13 +75,17 @@
 	<tfoot>定义表格中的表注内容（脚注）
 	<col>定义表格中一个或多个列的属性值
 	<colgroup>定义表格中供格式化的列组
+```
 6. 格式标签
+```html
 	<b>定义粗体文本
 	<i>定义斜体文本
 	<abbr>定义一个缩写
 	
 	<address>定义文档作者或拥有者的联系信息
+```
 7. 链接
+```html
 	<a>定义一个链接
 	- href定链接的目标 URL
 	- download指定下载链接
@@ -80,7 +93,9 @@
 	<link>定义文档与外部资源的关系
 	<main>定义文档的主体部分
 	<nav>定义导航链接
+```
 8. 元信息
+```html
 	<meta>定义关于 HTML 文档的元信息
 	- charset定义文档的字符编码uft8
 	- content定义与 http-equiv 或 name 属性相关的元信息
@@ -94,8 +109,11 @@
 	    3.description
 	    4.generator
 	    5.keywords
+```
 9. 样式/节
+```html
 	<style>定义文档的样式信息
 	    1.type规定样式表的 MIME 类型 text/css
 	    2.media为样式表规定不同的媒体类型media_query
 	<div>定义文档中的节
+```
