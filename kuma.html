@@ -28,15 +28,6 @@ WITH DataSource AS
     '' As ErrorMessage,
     '' AS SalesTableOIFRecId
   FROM earth_dp_SpoonsOrderIF_LS_IF_0174_TempWithSeq
-),
-DistinctOhiId AS (
-  SELECT 
-    OrderSource, 
-    CustomerPoNumber, 
-    CASE WHEN OrderSource = '' THEN '' 
-         ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
-    END AS OhiId
-  FROM DataSource
 )
 SELECT
   CustomerNumber,
@@ -46,9 +37,9 @@ SELECT
   InterfaceId,
   InventoryItemSegment1,
   InvoiceToOrgCode,
-  DistinctOhiId.OhiId,
+  OhiId,
   OliId,
-  DataSource.OrderSource,
+  OrderSource,
   OrderedQuantity,
   OrganizationCode,
   OrigSysDocumentRef,
@@ -58,6 +49,12 @@ SELECT
   ShipmentPriorityCode,
   SalesTableOIFRecId,
   Status
-FROM DataSource
-JOIN DistinctOhiId ON DataSource.OrderSource = DistinctOhiId.OrderSource AND DataSource.CustomerPoNumber = DistinctOhiId.CustomerPoNumber
-ORDER BY DataSource.CustomerPoNumber, DataSource.OrderSource, DataSource.OrderSourceValue;
+FROM (
+    SELECT DISTINCT OrderSource, CustomerPoNumber,
+      CASE WHEN OrderSource = '' THEN '' 
+           ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
+      END AS OhiId
+    FROM DataSource
+) AS DistinctOhiId
+JOIN DataSource ON DataSource.OrderSource = DistinctOhiId.OrderSource AND DataSource.CustomerPoNumber = DistinctOhiId.CustomerPoNumber
+ORDER BY CustomerPoNumber, OrderSource, OrderSourceValue;
