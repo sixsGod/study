@@ -3,13 +3,15 @@ WITH DataSource AS
   SELECT
     '0174' AS InterfaceId,
     '0' AS ErrorClassification,
-    CASE WHEN ISNULL(OrderSource, '') = '' THEN OrderSource
+    CASE WHEN OrderSource = '' THEN '' -- 如果OrderSource为空，则OhiId为空
          ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
     END AS OhiId,
     '0' AS Status,
-    CASE WHEN ISNULL(OrderSource, '') = '' THEN OrderSource
-         ELSE CONCAT(SUBSTRING(OrderSource, 1, 3), IF0174Seq)
-    END AS OrigSysDocumentRef,
+    IIF(
+      ISNULL(OrderSource, '') = '',
+      OrderSource,
+      CONCAT(SUBSTRING(OrderSource, 1, 3), IF0174Seq)
+    ) AS OrigSysDocumentRef,
     CONVERT(INT, NULLIF(OrderSource, '')) AS OrderSource,
     CustomerPoNumber,
     CustomerNumber,
@@ -17,7 +19,7 @@ WITH DataSource AS
     ShipToOrgCode,
     OrganizationCode,
     SecondaryInventoryName,
-    CASE WHEN ISNULL(OrderSource, '') = '' THEN OrderSource
+    CASE WHEN OrderSource = '' THEN '' -- 如果OrderSource为空，则OliId为空
          ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
     END AS OliId,
     OrigSysLineRef,
@@ -26,8 +28,12 @@ WITH DataSource AS
     InvoiceToOrgCode,
     '' As ErrorMessage,
     '' AS SalesTableOIFRecId,
-    ROW_NUMBER() OVER(PARTITION BY OrderSource, CustomerPoNumber ORDER BY (SELECT NULL)) AS GroupRow
+    ROW_NUMBER() OVER(PARTITION BY OrderSource, CustomerPoNumber ORDER BY (SELECT NULL)) AS RowNumber -- 为每个相同的OrderSource和CustomerPoNumber分配一个递增的序号
   FROM earth_dp_SpoonsOrderIF_LS_IF_0174_TempWithSeq
+),
+DistinctOhiId AS (
+  SELECT DISTINCT OrderSource, CustomerPoNumber, OhiId -- 确保相同的OrderSource和CustomerPoNumber具有相同的OhiId
+  FROM DataSource
 )
 SELECT
   CustomerNumber,
@@ -37,7 +43,7 @@ SELECT
   InterfaceId,
   InventoryItemSegment1,
   InvoiceToOrgCode,
-  CONCAT(OrderSource, SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8)) AS OhiId,
+  D.OhiId,
   OliId,
   OrderSource,
   OrderedQuantity,
@@ -49,4 +55,6 @@ SELECT
   ShipmentPriorityCode,
   SalesTableOIFRecId,
   Status
-FROM DataSource;
+FROM DataSource D
+JOIN DistinctOhiId DOhiId ON D.OrderSource = DOhiId.OrderSource AND D.CustomerPoNumber = DOhiId.CustomerPoNumber
+ORDER BY D.CustomerPoNumber, D.OrderSource, D.RowNumber; -- 按照CustomerPoNumber和OrderSource排序
