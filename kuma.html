@@ -25,14 +25,9 @@ WITH DataSource AS
     OrderedQuantity,
     InvoiceToOrgCode,
     '' As ErrorMessage,
-    '' AS SalesTableOIFRecId
+    '' AS SalesTableOIFRecId,
+    ROW_NUMBER() OVER(PARTITION BY OrderSource, CustomerPoNumber ORDER BY SomeColumn) AS GroupRow
   FROM earth_dp_SpoonsOrderIF_LS_IF_0174_TempWithSeq
-),
-NumberedDataSource AS (
-  SELECT
-    *,
-    ROW_NUMBER() OVER(PARTITION BY OrderSource, CustomerPoNumber ORDER BY (SELECT NULL)) AS GroupRow
-  FROM DataSource
 )
 SELECT
   CustomerNumber,
@@ -54,4 +49,4 @@ SELECT
   ShipmentPriorityCode,
   SalesTableOIFRecId,
   Status
-FROM NumberedDataSource;
+FROM DataSource;
