@@ -3,13 +3,12 @@ WITH DataSource AS
   SELECT
     '0174' AS InterfaceId,
     '0' AS ErrorClassification,
-    CASE WHEN OrderSource = '' THEN '' -- 如果OrderSource为空，则OhiId为空
+    CASE WHEN OrderSource = '' THEN '' 
          ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
     END AS OhiId,
     '0' AS Status,
     IIF(
-      ISNULL(OrderSource, '') = '',
-      OrderSource,
+      ISNULL(OrderSource, ''), OrderSource,
       CONCAT(SUBSTRING(OrderSource, 1, 3), IF0174Seq)
     ) AS OrigSysDocumentRef,
     CONVERT(INT, NULLIF(OrderSource, '')) AS OrderSourceValue,
@@ -19,7 +18,7 @@ WITH DataSource AS
     ShipToOrgCode,
     OrganizationCode,
     SecondaryInventoryName,
-    CASE WHEN OrderSource = '' THEN '' -- 如果OrderSource为空，则OliId为空
+    CASE WHEN OrderSource = '' THEN '' 
          ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
     END AS OliId,
     OrigSysLineRef,
@@ -31,7 +30,10 @@ WITH DataSource AS
   FROM earth_dp_SpoonsOrderIF_LS_IF_0174_TempWithSeq
 ),
 DistinctOhiId AS (
-  SELECT DISTINCT OrderSource, CustomerPoNumber, OhiId -- 确保相同的OrderSource和CustomerPoNumber具有相同的OhiId
+  SELECT DISTINCT OrderSource, CustomerPoNumber,
+    CASE WHEN OrderSource = '' THEN '' 
+         ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
+    END AS OhiId
   FROM DataSource
 )
 SELECT
@@ -42,9 +44,9 @@ SELECT
   InterfaceId,
   InventoryItemSegment1,
   InvoiceToOrgCode,
-  D.OhiId,
+  DistinctOhiId.OhiId,
   OliId,
-  D.OrderSource,
+  DataSource.OrderSource,
   OrderedQuantity,
   OrganizationCode,
   OrigSysDocumentRef,
@@ -54,6 +56,6 @@ SELECT
   ShipmentPriorityCode,
   SalesTableOIFRecId,
   Status
-FROM DataSource D
-JOIN DistinctOhiId DOhiId ON D.OrderSource = DOhiId.OrderSource AND D.CustomerPoNumber = DOhiId.CustomerPoNumber
-ORDER BY D.CustomerPoNumber, D.OrderSource, D.OrderSourceValue;
+FROM DataSource
+JOIN DistinctOhiId ON DataSource.OrderSource = DistinctOhiId.OrderSource AND DataSource.CustomerPoNumber = DistinctOhiId.CustomerPoNumber
+ORDER BY DataSource.CustomerPoNumber, DataSource.OrderSource, DataSource.OrderSourceValue;
