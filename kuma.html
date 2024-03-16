@@ -27,6 +27,12 @@ WITH DataSource AS
     '' As ErrorMessage,
     '' AS SalesTableOIFRecId
   FROM earth_dp_SpoonsOrderIF_LS_IF_0174_TempWithSeq
+),
+NumberedDataSource AS (
+  SELECT
+    *,
+    ROW_NUMBER() OVER(PARTITION BY OrderSource, CustomerPoNumber ORDER BY OhiId) AS OhiIdRank
+  FROM DataSource
 )
 SELECT
   CustomerNumber,
@@ -36,17 +42,16 @@ SELECT
   InterfaceId,
   InventoryItemSegment1,
   InvoiceToOrgCode,
-  MAX(OhiId) AS OhiId,
-  MAX(OliId) AS OliId,
+  CONCAT(OrderSource, LTRIM(STR(OhiIdRank, 10, 0))) AS OhiId,
+  OliId,
   OrderSource,
   OrderedQuantity,
-  MAX(OrganizationCode) AS OrganizationCode,
-  MAX(OrigSysDocumentRef) AS OrigSysDocumentRef,
+  OrganizationCode,
+  OrigSysDocumentRef,
   OrigSysLineRef,
-  MAX(SecondaryInventoryName) AS SecondaryInventoryName,
-  MAX(ShipToOrgCode) AS ShipToOrgCode,
-  MAX(ShipmentPriorityCode) AS ShipmentPriorityCode,
-  '' AS SalesTableOIFRecId,
-  MAX(Status) AS Status
-FROM DataSource
-GROUP BY CustomerNumber, CustomerPoNumber, ErrorClassification, ErrorMessage, InterfaceId, InventoryItemSegment1, InvoiceToOrgCode, OrderSource, OrigSysLineRef;
+  SecondaryInventoryName,
+  ShipToOrgCode,
+  ShipmentPriorityCode,
+  SalesTableOIFRecId,
+  Status
+FROM NumberedDataSource;
