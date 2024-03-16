@@ -1,56 +1,6 @@
-WITH DataSource AS
-(
-  SELECT
-    '0174' AS InterfaceId,
-    '0' AS ErrorClassification,
-    CASE 
-      WHEN OrderSource = '' THEN '' 
-      ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
-    END AS OhiId,
-    '0' AS Status,
-    IIF(
-      ISNULL(OrderSource, ''), OrderSource,
-      CONCAT(SUBSTRING(OrderSource, 1, 3), IF0174Seq)
-    ) AS OrigSysDocumentRef,
-    CONVERT(INT, NULLIF(OrderSource, '')) AS OrderSourceValue,
-    CustomerPoNumber,
-    CustomerNumber,
-    ShipmentPriorityCode,
-    ShipToOrgCode,
-    OrganizationCode,
-    SecondaryInventoryName,
-    CASE 
-      WHEN OrderSource = '' THEN '' 
-      ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
-    END AS OliId,
-    OrigSysLineRef,
-    InventoryItemSegment1,
-    OrderedQuantity,
-    InvoiceToOrgCode,
-    '' As ErrorMessage,
-    '' AS SalesTableOIFRecId,
-    ROW_NUMBER() OVER(PARTITION BY OrderSource, CustomerPoNumber ORDER BY (SELECT NULL)) AS RowNum
-  FROM earth_dp_SpoonsOrderIF_LS_IF_0174_TempWithSeq
-)
-SELECT
-  CustomerNumber,
-  CustomerPoNumber,
-  ErrorClassification,
-  ErrorMessage,
-  InterfaceId,
-  InventoryItemSegment1,
-  InvoiceToOrgCode,
-  OhiId,
-  OliId,
-  OrderSource,
-  OrderedQuantity,
-  OrganizationCode,
-  OrigSysDocumentRef,
-  OrigSysLineRef,
-  SecondaryInventoryName,
-  ShipToOrgCode,
-  ShipmentPriorityCode,
-  SalesTableOIFRecId,
-  Status
-FROM DataSource
-ORDER BY CustomerPoNumber, OrderSource, OrderSourceValue;
+番目	CustomerNumber	CustomerPoNumber	ErrorClassification	ErrorMessage	InterfaceId	InventoryItemSegment1	InvoiceToOrgCode	OhiId	OliId	OrderSource	OrderedQuantity	OrganizationCode	OrigSysDocumentRef	OrigSysLineRef	SecondaryInventoryName	ShipToOrgCode	ShipmentPriorityCode	SalesTableOIFRecId	Status
+1	375510	PS21-41066	0		0174	128K 01340R02	8960016	1300000123	1300000123	130	1	00F	1301100000123	1	51012	PS503	0		0
+2	1095920	PS21-41065	0		0174	011E 13273	8736560	1300000124	1300000124	130	10	00F	1301100000124	1	51009	PS029	0		0
+3	375510	PS21-41068	0		0174	128K 01340R02	8960016	1300000125	1300000125	130	1	00F	1301100000125	1	51012	PS503	0		0
+4	375510	PS21-41066	0		0174	128K 01340R02	8960016	1300000126	1300000126	130	1	00F	1301100000126	1	51012	PS503	0		0
+5	1095920	PS21-41065	0		0174	011E 13273	8736560	1300000127	1300000127	130	10	00F	1301100000127	1	51009	PS029	0		0
