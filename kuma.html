@@ -31,7 +31,7 @@ WITH DataSource AS
 NumberedDataSource AS (
   SELECT
     *,
-    ROW_NUMBER() OVER(PARTITION BY OrderSource, CustomerPoNumber ORDER BY OhiId) AS OhiIdRank
+    DENSE_RANK() OVER(ORDER BY OrderSource, CustomerPoNumber) AS GroupRank
   FROM DataSource
 )
 SELECT
@@ -42,7 +42,7 @@ SELECT
   InterfaceId,
   InventoryItemSegment1,
   InvoiceToOrgCode,
-  CONCAT(OrderSource, LTRIM(STR(OhiIdRank, 10, 0))) AS OhiId,
+  CONCAT(OrderSource, LTRIM(STR(GroupRank, 10, 0))) AS OhiId,
   OliId,
   OrderSource,
   OrderedQuantity,
