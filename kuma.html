@@ -3,8 +3,9 @@ WITH DataSource AS
   SELECT
     '0174' AS InterfaceId,
     '0' AS ErrorClassification,
-    CASE WHEN OrderSource = '' THEN '' 
-         ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
+    CASE 
+      WHEN OrderSource = '' THEN '' 
+      ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
     END AS OhiId,
     '0' AS Status,
     IIF(
@@ -18,21 +19,18 @@ WITH DataSource AS
     ShipToOrgCode,
     OrganizationCode,
     SecondaryInventoryName,
-    CASE WHEN OrderSource = '' THEN '' 
-         ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
+    CASE 
+      WHEN OrderSource = '' THEN '' 
+      ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
     END AS OliId,
     OrigSysLineRef,
     InventoryItemSegment1,
     OrderedQuantity,
     InvoiceToOrgCode,
     '' As ErrorMessage,
-    '' AS SalesTableOIFRecId
+    '' AS SalesTableOIFRecId,
+    ROW_NUMBER() OVER(PARTITION BY OrderSource, CustomerPoNumber ORDER BY (SELECT NULL)) AS RowNum
   FROM earth_dp_SpoonsOrderIF_LS_IF_0174_TempWithSeq
-),
-RankedDataSource AS (
-  SELECT *,
-         ROW_NUMBER() OVER (PARTITION BY OrderSource, CustomerPoNumber ORDER BY (SELECT NULL)) AS RowNumber
-  FROM DataSource
 )
 SELECT
   CustomerNumber,
@@ -54,5 +52,5 @@ SELECT
   ShipmentPriorityCode,
   SalesTableOIFRecId,
   Status
-FROM RankedDataSource
+FROM DataSource
 ORDER BY CustomerPoNumber, OrderSource, OrderSourceValue;
