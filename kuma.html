@@ -25,9 +25,14 @@ WITH DataSource AS
     OrderedQuantity,
     InvoiceToOrgCode,
     '' As ErrorMessage,
-    '' AS SalesTableOIFRecId,
-    ROW_NUMBER() OVER(PARTITION BY OrderSource, CustomerPoNumber ORDER BY SomeColumn) AS GroupRow
+    '' AS SalesTableOIFRecId
   FROM earth_dp_SpoonsOrderIF_LS_IF_0174_TempWithSeq
+),
+NumberedDataSource AS (
+  SELECT
+    *,
+    DENSE_RANK() OVER(ORDER BY OrderSource, CustomerPoNumber) AS GroupRank
+  FROM DataSource
 )
 SELECT
   CustomerNumber,
@@ -37,7 +42,7 @@ SELECT
   InterfaceId,
   InventoryItemSegment1,
   InvoiceToOrgCode,
-  CONCAT(OrderSource, SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8)) AS OhiId,
+  CONCAT(OrderSource, LTRIM(STR(GroupRank, 10, 0))) AS OhiId,
   OliId,
   OrderSource,
   OrderedQuantity,
@@ -49,4 +54,4 @@ SELECT
   ShipmentPriorityCode,
   SalesTableOIFRecId,
   Status
-FROM DataSource;
+FROM NumberedDataSource;
