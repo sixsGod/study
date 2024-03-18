@@ -3,8 +3,8 @@ WITH CTE AS (
            LAG(OhiId) OVER (ORDER BY SomeColumn) AS PreviousOhiId,
            LAG(OrderSource) OVER (ORDER BY SomeColumn) AS PreviousOrderSource,
            LAG(CustomerPoNumber) OVER (ORDER BY SomeColumn) AS PreviousCustomerPoNumber
-    FROM YourTable
+    FROM earth_dp_SpoonsOrderIF_LS_IF_0174_TempWithSeq
 )
 UPDATE CTE
-SET OhiId = CASE WHEN PreviousOrderSource = OrderSource AND PreviousCustomerPoNumber = CustomerPoNumber THEN PreviousOhiId ELSE OhiId END;
+SET IF0174Seq = CASE WHEN PreviousOrderSource = OrderSource AND PreviousCustomerPoNumber = CustomerPoNumber THEN PreviousOhiId ELSE IF0174Seq END;
 
