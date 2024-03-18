@@ -1,3 +1,4 @@
+-- 创建存储过程
 CREATE PROCEDURE UpdateOhiIdBasedOnOrderSourceAndCustomerPoNumber
 AS
 BEGIN
@@ -26,7 +27,7 @@ BEGIN
         BEGIN
             -- 如果存在相同的记录，则更新另一条记录的 OhiId 为当前记录的 OhiId
             UPDATE YourTableName
-            SET OhiId = @OhiIdToUpdate
+            SET OhiId = CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
             WHERE OrderSource = @OrderSource AND CustomerPoNumber = @CustomerPoNumber AND OhiId != @OhiIdToUpdate;
         END
 
