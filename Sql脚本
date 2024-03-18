@@ -1,40 +1,9 @@
-ALTER PROCEDURE UpdateOhiIdBasedOnOrderSourceAndCustomerPoNumber
-AS
-BEGIN
-    DECLARE @OrderSource VARCHAR(255);
-    DECLARE @CustomerPoNumber VARCHAR(255);
-    DECLARE @OhiIdToUpdate VARCHAR(255);
-    DECLARE @PreviousOhiId VARCHAR(255);
-
-    DECLARE cur CURSOR FOR
-    SELECT OrderSource, CustomerPoNumber, OhiId
-    FROM YourTableName
-    WHERE OrderSource IS NOT NULL AND CustomerPoNumber IS NOT NULL
-    ORDER BY OrderSource, CustomerPoNumber;
-
-    OPEN cur;
-
-    FETCH NEXT FROM cur INTO @OrderSource, @CustomerPoNumber, @OhiIdToUpdate;
-
-    SET @PreviousOhiId = NULL;
-
-    WHILE @@FETCH_STATUS = 0
-    BEGIN
-        -- 输出当前记录的信息以进行调试
-        PRINT 'Current Record: OrderSource=' + @OrderSource + ', CustomerPoNumber=' + @CustomerPoNumber + ', OhiIdToUpdate=' + @OhiIdToUpdate + ', PreviousOhiId=' + ISNULL(@PreviousOhiId, 'NULL');
-
-        IF @PreviousOhiId IS NOT NULL
-        BEGIN
-            UPDATE YourTableName
-            SET OhiId = @PreviousOhiId
-            WHERE CURRENT OF cur;
-        END
-
-        SET @PreviousOhiId = @OhiIdToUpdate;
-
-        FETCH NEXT FROM cur INTO @OrderSource, @CustomerPoNumber, @OhiIdToUpdate;
-    END
-
-    CLOSE cur;
-    DEALLOCATE cur;
-END;
+UPDATE YourTable
+SET OhiId = (
+    SELECT TOP 1 OliId 
+    FROM YourTable 
+    WHERE OrderSource = YourTable.OrderSource 
+    AND CustomerPoNumber = YourTable.CustomerPoNumber 
+    ORDER BY [SomeColumn] -- 替换为用于确定第一条记录的排序列
+)
+WHERE ID = (SELECT MIN(ID) FROM YourTable); -- 根据具体情况确定如何选择第一条记录
