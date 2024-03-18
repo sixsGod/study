@@ -6,30 +6,33 @@ BEGIN
     DECLARE @OrderSource VARCHAR(255);
     DECLARE @CustomerPoNumber VARCHAR(255);
     DECLARE @OhiIdToUpdate VARCHAR(255);
+    DECLARE @PreviousOhiId VARCHAR(255); -- 用于记录上一条记录的 OhiId
 
     DECLARE cur CURSOR FOR
     SELECT OrderSource, CustomerPoNumber, OhiId
     FROM YourTableName
-    WHERE OrderSource IS NOT NULL AND CustomerPoNumber IS NOT NULL;
+    WHERE OrderSource IS NOT NULL AND CustomerPoNumber IS NOT NULL
+    ORDER BY OrderSource, CustomerPoNumber; -- 确保按照 OrderSource 和 CustomerPoNumber 排序
 
     OPEN cur;
 
     FETCH NEXT FROM cur INTO @OrderSource, @CustomerPoNumber, @OhiIdToUpdate;
 
+    -- 初始化上一条记录的 OhiId
+    SET @PreviousOhiId = NULL;
+
     WHILE @@FETCH_STATUS = 0
     BEGIN
-        -- 检查是否存在相同 OrderSource 和 CustomerPoNumber 的记录
-        IF EXISTS (
-            SELECT 1
-            FROM YourTableName
-            WHERE OrderSource = @OrderSource AND CustomerPoNumber = @CustomerPoNumber AND OhiId != @OhiIdToUpdate
-        )
+        -- 更新当前记录的 OhiId 为上一条记录的 OhiId
+        IF @PreviousOhiId IS NOT NULL
         BEGIN
-            -- 如果存在相同的记录，则更新当前记录的 OhiId
             UPDATE YourTableName
-            SET OhiId = CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
+            SET OhiId = @PreviousOhiId
             WHERE CURRENT OF cur;
         END
+
+        -- 记录当前记录的 OhiId 作为下一条记录的上一条记录的 OhiId
+        SET @PreviousOhiId = @OhiIdToUpdate;
 
         FETCH NEXT FROM cur INTO @OrderSource, @CustomerPoNumber, @OhiIdToUpdate;
     END
