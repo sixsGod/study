@@ -1,29 +1,28 @@
--- 修改存储过程
 ALTER PROCEDURE UpdateOhiIdBasedOnOrderSourceAndCustomerPoNumber
 AS
 BEGIN
-    -- 使用游标循环遍历表中的记录
     DECLARE @OrderSource VARCHAR(255);
     DECLARE @CustomerPoNumber VARCHAR(255);
     DECLARE @OhiIdToUpdate VARCHAR(255);
-    DECLARE @PreviousOhiId VARCHAR(255); -- 用于记录上一条记录的 OhiId
+    DECLARE @PreviousOhiId VARCHAR(255);
 
     DECLARE cur CURSOR FOR
     SELECT OrderSource, CustomerPoNumber, OhiId
     FROM YourTableName
     WHERE OrderSource IS NOT NULL AND CustomerPoNumber IS NOT NULL
-    ORDER BY OrderSource, CustomerPoNumber; -- 确保按照 OrderSource 和 CustomerPoNumber 排序
+    ORDER BY OrderSource, CustomerPoNumber;
 
     OPEN cur;
 
     FETCH NEXT FROM cur INTO @OrderSource, @CustomerPoNumber, @OhiIdToUpdate;
 
-    -- 初始化上一条记录的 OhiId
     SET @PreviousOhiId = NULL;
 
     WHILE @@FETCH_STATUS = 0
     BEGIN
-        -- 更新当前记录的 OhiId 为上一条记录的 OhiId
+        -- 输出当前记录的信息以进行调试
+        PRINT 'Current Record: OrderSource=' + @OrderSource + ', CustomerPoNumber=' + @CustomerPoNumber + ', OhiIdToUpdate=' + @OhiIdToUpdate + ', PreviousOhiId=' + ISNULL(@PreviousOhiId, 'NULL');
+
         IF @PreviousOhiId IS NOT NULL
         BEGIN
             UPDATE YourTableName
@@ -31,7 +30,6 @@ BEGIN
             WHERE CURRENT OF cur;
         END
 
-        -- 记录当前记录的 OhiId 作为下一条记录的上一条记录的 OhiId
         SET @PreviousOhiId = @OhiIdToUpdate;
 
         FETCH NEXT FROM cur INTO @OrderSource, @CustomerPoNumber, @OhiIdToUpdate;
