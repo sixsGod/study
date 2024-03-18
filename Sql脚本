@@ -1,18 +1,10 @@
-CREATE PROCEDURE UpdateOhiIdBasedOnOrderSourceAndCustomerPoNumber
-AS
-BEGIN
-    -- 利用CTE找到需要更新的记录
-    WITH CTE AS (
-        SELECT *,
-               ROW_NUMBER() OVER (PARTITION BY OrderSource, CustomerPoNumber ORDER BY ID) AS RowNum
-        FROM YourTable -- 替换为您的表名
-    )
-    -- 更新第二条记录的OhiId为第一条记录的OhiId
-    UPDATE CTE
-    SET OhiId = (
-        SELECT TOP 1 OhiId 
-        FROM CTE 
-        WHERE RowNum = 1
-    )
-    WHERE RowNum = 2;
-END;
+WITH CTE AS (
+    SELECT *,
+           LAG(OhiId) OVER (ORDER BY SomeColumn) AS PreviousOhiId,
+           LAG(OrderSource) OVER (ORDER BY SomeColumn) AS PreviousOrderSource,
+           LAG(CustomerPoNumber) OVER (ORDER BY SomeColumn) AS PreviousCustomerPoNumber
+    FROM YourTable
+)
+UPDATE CTE
+SET OhiId = CASE WHEN PreviousOrderSource = OrderSource AND PreviousCustomerPoNumber = CustomerPoNumber THEN PreviousOhiId ELSE OhiId END;
+
