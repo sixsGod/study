@@ -1,13 +1,13 @@
 WITH DataSource AS (
     SELECT
-        InterfaceId,
-        ErrorClassification,
+        '0174' AS InterfaceId,
+        '0' AS ErrorClassification,
         CASE 
             WHEN OrderSource IS NULL THEN ''
             ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
         END AS OhiId,
-        Status,
-        OrigSysDocumentRef,
+        '0' AS Status,
+        '' As OrigSysDocumentRef,
         OrderSource,
         CustomerPoNumber,
         CustomerNumber,
@@ -15,17 +15,16 @@ WITH DataSource AS (
         ShipToOrgCode,
         OrganizationCode,
         SecondaryInventoryName,
-        IIF(
-            ISNULL(OrderSource, ''),
-            OrderSource,
-            CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
-        ) AS OliId,
+        CASE 
+            WHEN OrderSource IS NULL THEN ''
+            ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
+        END AS OliId,
         OrigSysLineRef,
         InventoryItemSegment1,
         OrderedQuantity,
         InvoiceToOrgCode,
-        ErrorMessage,
-        SalesTableOIFRecId,
+        '' As ErrorMessage,
+        '' As SalesTableOIFRecId,
         LAG(OhiId) OVER (PARTITION BY OrderSource, CustomerPoNumber ORDER BY OhiId) AS PreviousOhiId, -- 获取前一行的OhiId
         ROW_NUMBER() OVER(PARTITION BY OrderSource, CustomerPoNumber ORDER BY OhiId) AS NewOhiId
     FROM earth_dp_SpoonsOrderIF_LS_IF_0174_TempWithSeq
@@ -39,9 +38,9 @@ SELECT
     InventoryItemSegment1,
     InvoiceToOrgCode,
     CASE 
-        WHEN LAG(OrderSource) OVER (PARTITION BY OrderSource, CustomerPoNumber ORDER BY OhiId) = OrderSource
-             AND LAG(CustomerPoNumber) OVER (PARTITION BY OrderSource, CustomerPoNumber ORDER BY OhiId) = CustomerPoNumber
-        THEN LAG(OhiId) OVER (PARTITION BY OrderSource, CustomerPoNumber ORDER BY OhiId) -- 如果与前一行的OrderSource和CustomerPoNumber相同，则返回前一行的OhiId
+        WHEN LAG(OrderSource) OVER (ORDER BY OhiId) = OrderSource
+             AND LAG(CustomerPoNumber) OVER (ORDER BY OhiId) = CustomerPoNumber
+        THEN COALESCE(LAG(OhiId) OVER (ORDER BY OhiId),OhiId) -- 如果与前一行的OrderSource和CustomerPoNumber相同，则返回前一行的OhiId
         ELSE OhiId -- 否则保持当前行的OhiId不变
     END AS OhiId,
     OliId,
