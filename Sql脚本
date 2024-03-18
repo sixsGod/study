@@ -27,6 +27,12 @@ WITH DataSource AS (
         '' As SalesTableOIFRecId,
         ROW_NUMBER() OVER(PARTITION BY OrderSource, CustomerPoNumber ORDER BY OhiId) AS NewOhiId
     FROM earth_dp_SpoonsOrderIF_LS_IF_0174_TempWithSeq
+),
+PreviousOhiId AS (
+    SELECT 
+        *,
+        LAG(OhiId) OVER (ORDER BY OhiId) AS PreviousOhiId
+    FROM DataSource
 )
 SELECT
     CustomerNumber,
@@ -37,10 +43,9 @@ SELECT
     InventoryItemSegment1,
     InvoiceToOrgCode,
     CASE 
-        WHEN LAG(OrderSource) OVER (ORDER BY OhiId) = OrderSource
-             AND LAG(CustomerPoNumber) OVER (ORDER BY OhiId) = CustomerPoNumber
-        THEN COALESCE(LAG(OhiId) OVER (ORDER BY OhiId),OhiId) -- 如果与前一行的OrderSource和CustomerPoNumber相同，则返回前一行的OhiId
-        ELSE OhiId -- 否则保持当前行的OhiId不变
+        WHEN po.PreviousOhiId = ds.OrderSource AND po.CustomerPoNumber = ds.CustomerPoNumber
+        THEN COALESCE(po.PreviousOhiId, ds.OhiId) -- 如果与前一行的OrderSource和CustomerPoNumber相同，则返回前一行的OhiId
+        ELSE ds.OhiId -- 否则保持当前行的OhiId不变
     END AS OhiId,
     OliId,
     OrderSource,
@@ -53,4 +58,5 @@ SELECT
     ShipmentPriorityCode,
     SalesTableOIFRecId,
     Status
-FROM DataSource;
+FROM DataSource ds
+LEFT JOIN PreviousOhiId po ON ds.OhiId = po.OhiId;
