@@ -1,9 +1,18 @@
-UPDATE YourTable
-SET OhiId = (
-    SELECT TOP 1 OliId 
-    FROM YourTable 
-    WHERE OrderSource = YourTable.OrderSource 
-    AND CustomerPoNumber = YourTable.CustomerPoNumber 
-    ORDER BY [SomeColumn] -- 替换为用于确定第一条记录的排序列
-)
-WHERE ID = (SELECT MIN(ID) FROM YourTable); -- 根据具体情况确定如何选择第一条记录
+CREATE PROCEDURE UpdateOhiIdBasedOnOrderSourceAndCustomerPoNumber
+AS
+BEGIN
+    -- 利用CTE找到需要更新的记录
+    WITH CTE AS (
+        SELECT *,
+               ROW_NUMBER() OVER (PARTITION BY OrderSource, CustomerPoNumber ORDER BY ID) AS RowNum
+        FROM YourTable -- 替换为您的表名
+    )
+    -- 更新第二条记录的OhiId为第一条记录的OhiId
+    UPDATE CTE
+    SET OhiId = (
+        SELECT TOP 1 OhiId 
+        FROM CTE 
+        WHERE RowNum = 1
+    )
+    WHERE RowNum = 2;
+END;
