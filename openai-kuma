@@ -31,8 +31,7 @@ WITH DataSource AS
     OrderedQuantity,
     InvoiceToOrgCode,
     '' As ErrorMessage,
-    '' AS SalesTableOIFRecId,
-    ROW_NUMBER() OVER(PARTITION BY OrderSource, CustomerPoNumber ORDER BY OhiId) AS NewOhiId -- 新增的窗口函数
+    '' AS SalesTableOIFRecId
   FROM earth_dp_SpoonsOrderIF_LS_IF_0174_TempWithSeq
 )
 SELECT
