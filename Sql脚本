@@ -1,10 +1,39 @@
-WITH CTE AS (
-    SELECT *,
-           LAG(OhiId) OVER (ORDER BY SomeColumn) AS PreviousOhiId,
-           LAG(OrderSource) OVER (ORDER BY SomeColumn) AS PreviousOrderSource,
-           LAG(CustomerPoNumber) OVER (ORDER BY SomeColumn) AS PreviousCustomerPoNumber
+WITH DataSource AS (
+    SELECT
+        InterfaceId,
+        ErrorClassification,
+        CASE 
+            WHEN OrderSource IS NULL THEN ''
+            ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
+        END AS OhiId,
+        Status,
+        OrigSysDocumentRef,
+        OrderSource,
+        CustomerPoNumber,
+        CustomerNumber,
+        ShipmentPriorityCode,
+        ShipToOrgCode,
+        OrganizationCode,
+        SecondaryInventoryName,
+        OliId,
+        OrigSysLineRef,
+        InventoryItemSegment1,
+        OrderedQuantity,
+        InvoiceToOrgCode,
+        ErrorMessage,
+        SalesTableOIFRecId,
+        LAG(OliId) OVER (ORDER BY OhiId) AS PreviousOliId, -- 获取前一行的OliId
+        ROW_NUMBER() OVER(PARTITION BY OrderSource, CustomerPoNumber ORDER BY OhiId) AS NewOhiId
     FROM earth_dp_SpoonsOrderIF_LS_IF_0174_TempWithSeq
 )
-UPDATE CTE
-SET IF0174Seq = CASE WHEN PreviousOrderSource = OrderSource AND PreviousCustomerPoNumber = CustomerPoNumber THEN PreviousOhiId ELSE IF0174Seq END;
-
+UPDATE DataSource
+SET OhiId = CASE 
+                WHEN ISNULL(OrderSource, '') = '' THEN '' -- 如果OrderSource为空，则OhiId为空
+                ELSE CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8)) -- 否则根据规则生成OhiId
+                END,
+    OliId = CASE 
+                WHEN LAG(OrderSource) OVER (ORDER BY OhiId) = OrderSource AND LAG(CustomerPoNumber) OVER (ORDER BY OhiId) = CustomerPoNumber
+                    THEN LAG(OliId) OVER (ORDER BY OhiId) -- 如果上一行的OrderSource和CustomerPoNumber与当前行相同，则使用上一行的OliId
+                ELSE OliId -- 否则保持当前的OliId不变
+            END
+WHERE NewOhiId > 1; -- 确保只更新非第一行的记录
