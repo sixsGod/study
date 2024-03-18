@@ -46,7 +46,7 @@ SELECT
         WHEN po.PreviousOhiId = ds.OrderSource AND po.CustomerPoNumber = ds.CustomerPoNumber
         THEN COALESCE(po.PreviousOhiId, ds.OhiId) -- 如果与前一行的OrderSource和CustomerPoNumber相同，则返回前一行的OhiId
         ELSE ds.OhiId -- 否则保持当前行的OhiId不变
-    END AS OhiId,
+    END AS NewOhiId,
     OliId,
     OrderSource,
     OrderedQuantity,
