@@ -3,13 +3,11 @@ WITH DataSource AS
   SELECT
     '0174' AS InterfaceId,
     '0' AS ErrorClassification,
-	--modify start
     IIF(
       ISNULL(OrderSource, '') = '',
       OrderSource,
-	  LAG(CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8)),1,CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))) OVER (partition by OrderSource, CustomerPoNumber Order BY CustomerPoNumber)
-  ) AS OhiId,
-	--modify end
+      CONCAT(SUBSTRING(OrderSource, 1, 2), SUBSTRING(CONVERT(VARCHAR(10), IF0174Seq), 3, 8))
+    ) AS OhiId,
     '0' AS Status,
     IIF(
       ISNULL(OrderSource, '') = '',
@@ -35,6 +33,12 @@ WITH DataSource AS
     '' As ErrorMessage,
     '' AS SalesTableOIFRecId
   FROM earth_dp_SpoonsOrderIF_LS_IF_0174_TempWithSeq
+),
+FirstRecord AS (
+  SELECT 
+    *,
+    ROW_NUMBER() OVER (PARTITION BY OrderSource, CustomerPoNumber ORDER BY OrigSysLineRef) AS RowNum
+  FROM DataSource
 )
 SELECT
   CustomerNumber,
@@ -44,7 +48,7 @@ SELECT
   InterfaceId,
   InventoryItemSegment1,
   InvoiceToOrgCode,
-  OhiId,
+  (SELECT TOP 1 OhiId FROM FirstRecord fr WHERE fr.OrderSource = d.OrderSource AND fr.CustomerPoNumber = d.CustomerPoNumber AND fr.RowNum = 1) AS OhiId,
   OliId,
   OrderSource,
   OrderedQuantity,
@@ -56,5 +60,5 @@ SELECT
   ShipmentPriorityCode,
   SalesTableOIFRecId,
   Status
-FROM DataSource
-Order BY OliId;
+FROM DataSource d
+ORDER BY OliId;
