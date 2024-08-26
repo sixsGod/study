@@ -1,19 +1,35 @@
-# rookies-to-master
+# Rookies-To-Master
 <hr>
 
 > [!note]
-> this is a rookies place,but hope soon gonna be a master!all of this just some simple start.
-> sounds like a code backup space.#date#2017.03.15
-<hr>
+> this is a rookies place, but hope soon gonna be a master!all of this just some simple start.
+> sounds like a code backup space. #date# 2017.03.15
 
 ### 编程语言
 <hr>
 
+- [ ] [C](C)<br>
+- [ ] [C#](C#)<br>
+- [ ] [C++](C++)<br>
+- [x] [COBOL](COBOL)<br>
+- [ ] [VB](VB)<br>
+- [ ] [JAVA](java)<br>
+- [ ] [SWIFT](swift)<br>
+- [ ] [PYTHON](python)<br>
+- [x] [HTML](html)<br>
+- [ ] [CSS](css)<br>
+- [ ] [JAVASCRIPT](javascript)
+- [x] [MYSQL](sql/mysql)
+- [x] [ORACLE](sql/oracle)
+- [x] [DB2](sql/db2)
+<hr>
+
 > [!tip]
-> Program language which I choiced!
+> Program language which I want to study!
 <hr>
 
 ### 编程语言的基本组成
+<hr>
 
 - [ ] 0.程序结构与运行方法<br>
 - [ ] 1.注释<br>
