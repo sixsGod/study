@@ -5,12 +5,16 @@
 - 2. CSS 描述了网页的布局
 - 3. JavaScript 控制了网页的行为
 
-### JavaScript的实现
-1. ECMAScript
-2. DOM：(文档对象模型)
-3. BOM：(浏览器对象模型)
+## JavaScript的实现
+- ECMAScript
+- DOM：(文档对象模型)
+- BOM：(浏览器对象模型)
 
-### 嵌套JavaScript的两种方式:
+## JavaScript注释:
+- 单行注释：//
+- 多行注释：/\*注释内容\*/
+
+## 嵌套JavaScript的两种方式:
 1. 内部JS
 ```html
 <!DOCTYPE html>
