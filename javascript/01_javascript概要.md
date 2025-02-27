@@ -5,6 +5,10 @@
 - 2. CSS 描述了网页的布局
 - 3. JavaScript 控制了网页的行为
 
+### JavaScript的实现
+1. ECMAScript
+2. DOM(文档对象模型)
+3. BOM(浏览器对象模型)
 
 ### 嵌套JavaScript的两种方式:
 1. 内部JS
@@ -45,4 +49,18 @@
 alert("我的第一个 JavaScript");
 ```
 
+3. 元素属性JS
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>元素属性JS</title>
+</head>
+<body>
+    <!-- 在元素时间中编写JS -->
+    <input type="button" value="按钮" onclick="hello javasrcipt world"/>
+</body>
+</html>
+```
 
