@@ -1,7 +1,3 @@
-## JavaScript注释:
-- 单行注释：//
-- 多行注释：/*注释内容*/
-
 ### JavaScript数据类型:
 - 原始数据类型（基本数据类型）：
 	1. number:整数/小数/NaN(not a number)
@@ -14,6 +10,8 @@
 	1. Object:对象
 	2. Array:数组
 	3. Function:函数
+
+<hr>
 
 ### JavaScript定义变量
 ```javascript
@@ -52,7 +50,8 @@ cars[2]="BMW";
 //var cars=new Array("Saab","Volvo","BMW"); 也可以这么写
 
 /* Object类型
-	对象由花括号分隔。在括号内部，对象的属性以名称和值对的形式 (name : value) 来定义。属性由逗号分隔：
+      对象由花括号分隔。在括号内部，对象的属性以名称和值对的形式 (name : value) 来定义。
+      属性由逗号分隔：
 */
 var person={firstname:"John", lastname:"Doe", id:5566};
 //对象属性有两种寻址方式：
