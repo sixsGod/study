@@ -7,8 +7,8 @@
 
 ### JavaScript的实现
 1. ECMAScript
-2. DOM(文档对象模型)
-3. BOM(浏览器对象模型)
+2. DOM：(文档对象模型)
+3. BOM：(浏览器对象模型)
 
 ### 嵌套JavaScript的两种方式:
 1. 内部JS
@@ -58,8 +58,8 @@ alert("我的第一个 JavaScript");
     <title>元素属性JS</title>
 </head>
 <body>
-    <!-- 在元素时间中编写JS -->
-    <input type="button" value="按钮" onclick="hello javasrcipt world"/>
+    <!-- 在元素事件中编写JS -->
+    <input type="button" value="按钮" onclick="alert('hello javasrcipt world')"/>
 </body>
 </html>
 ```
