@@ -33,7 +33,7 @@
 </body>
 </html>
 ```
-- console.log
+- console.log(msg)
 ```html
 <!DOCTYPE html>
 <html lang="en">
