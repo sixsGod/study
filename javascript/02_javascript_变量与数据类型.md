@@ -48,6 +48,7 @@ cars[0]="Saab";
 cars[1]="Volvo";
 cars[2]="BMW";
 //var cars=new Array("Saab","Volvo","BMW"); 也可以这么写
+//利用数字字面量来创建：var cars = [];
 
 /* Object类型
       对象由花括号分隔。在括号内部，对象的属性以名称和值对的形式 (name : value) 来定义。
