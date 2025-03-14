@@ -64,3 +64,29 @@ function myFunction(var1,var2)  // 调用带参数的函数
 代码
 }
 ```
+## 数据类型转换
+- num.toString()
+```javascript
+var num = 10;
+var str = num.toString();
+console.log(str)
+
+```
+- String(num)
+```javascript
+console.log(String(num));
+```
+- parselnt(str)
+```javascript
+var str = '18'
+console.log(parselnt(str));
+```
+- parseFloat(str)
+```javascript
+console.log(parseFloat('3.14'));
+```
+- Number()
+```javascript
+var str = '18'
+console.log(Number(str));
+```
