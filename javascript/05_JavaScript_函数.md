@@ -94,6 +94,19 @@
 </html>
 ```
 
+## 构造函数
+```javascript
+// always use this keyword
+function Star(name,age,sex) {
+    this.name = name;
+    this.age = age;
+    this.sex = sex;
+}
+// must use new keyword
+var myname = new Star('Allen',18,'men')
+
+```
+
 ## 内置函数
 - parseint(): 提取字符串中的数字，只限提取整数
 - parseFloat(): 提取字符串中的数字，可以提取小数
