@@ -108,6 +108,7 @@ var myname = new Star('Allen',18,'men')
 ```
 
 ## 内置函数
+MDN查看如何使用内置对象
 - parseint(): 提取字符串中的数字，只限提取整数
 - parseFloat(): 提取字符串中的数字，可以提取小数
 - isFinite(): 判断某一个数是否是一个有限数值
