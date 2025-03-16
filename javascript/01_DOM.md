@@ -16,14 +16,16 @@ Dom是JavaScript操作网页的接口，全称为"文档对象模型"(Document O
 8. document.nodeType ：可以判断节点的类型
 
 ## document对象_获取元素
-- getElementsById
-- getElementsByName
-- getElementsByTagName
-- getElementsByClassName
-- querySelector
-- querySelectorAll
+- getElementsById('str')
+- getElementsByName('str')
+- getElementsByTagName('str')
+- getElementsByClassName('str')
+- querySelector('Selector') # .sel->class #sel ->id
+- querySelectorAll('Selector')
 
 ```javascript
+document.documentElement # 返回html元素对象
+document.body # 返回body元素对象
 var div1 = document.getElementsByTagName("div")[0]
 div1.innerHTML = "Hello World"
 console.log(div1)
