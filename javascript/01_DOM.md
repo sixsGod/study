@@ -27,6 +27,7 @@ Dom是JavaScript操作网页的接口，全称为"文档对象模型"(Document O
 var div1 = document.getElementsByTagName("div")[0]
 div1.innerHTML = "Hello World"
 console.log(div1)
+console.dir(div1) //打印返回的对象，方便查看里面的属性和方法
 ```
 
 
