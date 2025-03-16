@@ -32,4 +32,19 @@ console.log(div1)
 console.dir(div1) //打印返回的对象，方便查看里面的属性和方法
 ```
 
+## document对象_修改元素
+- innerText
+特点：不识别html标签，而且去除空格换行
+<button>显示系统当前时间</button>
+<div>某个事件</div>
 
+```javascript
+var btn = document.querySelector('button');
+var div = document.querySelector('div');
+btn.onclick = function() {
+  div.innerText = '2019-6-6';
+}
+```
+
+- innerHTML
+特点：识别html标签，保留空格换行
