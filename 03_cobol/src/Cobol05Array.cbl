@@ -1,0 +1,21 @@
+IDENTIFICATION DIVISION.
+PROGRAM-ID. Cobol05Array.
+
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 NumArray.
+    05 NumElement PIC 9(2) OCCURS 5 TIMES.
+01 Index PIC 9 VALUE 1.
+
+PROCEDURE DIVISION.
+Main-Logic.
+    PERFORM VARYING Index FROM 1 BY 1 UNTIL Index > 5
+     MOVE Index TO NumElement(Index)
+    END-PERFORM
+
+    DISPLAY "Array Elements:"
+    PERFORM VARYING Index FROM 1 BY 1 UNTIL Index > 5
+     DISPLAY "Element " Index ": " NumElement(Index)
+    END-PERFORM
+
+    STOP RUN.
