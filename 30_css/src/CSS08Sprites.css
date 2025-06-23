@@ -1,0 +1,26 @@
+.icon {
+  display: inline-block;
+  width: 32px;      /* 单个小图标宽度 */
+  height: 32px;     /* 单个小图标高度 */
+  background-image: url('icons.png');
+  background-repeat: no-repeat;
+}
+
+/* 显示第1个图标（左上角） */
+.icon-home {
+  background-position: 0 0;
+}
+
+/* 显示第2个图标（向左移动32px） */
+.icon-user {
+  background-position: -32px 0;
+}
+
+/* 显示第3个图标（向左移动64px） */
+.icon-setting {
+  background-position: -64px 0;
+}
+<html>
+<span class="icon icon-home"></span>
+<span class="icon icon-user"></span>
+<span class="icon icon-setting"></span>
