@@ -1,0 +1,24 @@
+/*
+CSS 传统布局方式主要有以下几种：
+
+1.块级元素布局（标准流/文档流）
+元素按照 HTML 顺序从上到下排列，常用于页面基础结构。
+
+2.浮动布局（float）
+使用 float:left 或 float:right 让元素左右浮动，常用于多栏布局。需要清除浮动以避免父元素高度塌陷。
+
+*/
+
+.left { float: left; width: 200px; }
+.right { float: right; width: 200px; }
+.clearfix::after { content: ""; display: block; clear: both; }
+/*
+3.定位布局（position）
+使用 position: relative/absolute/fixed 等属性让元素脱离标准流，进行精确定位。
+*/
+.box { position: absolute; top: 20px; left: 50px; }
+/*
+4.内联/行内块布局（inline/inline-block）
+让元素在一行内排列，inline-block 可设置宽高，常用于横向菜单等。
+*/
+.item { display: inline-block; width: 100px; }
