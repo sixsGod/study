@@ -1,0 +1,17 @@
+.box {
+  display: block;
+  position: relative;
+  width: 200px;
+  height: 100px;
+  margin: 20px auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f9f9f9;
+  color: #333;
+  font-size: 16px;
+  text-align: center;
+  line-height: 1.5;
+  box-shadow: 2px 2px 8px #eee;
+  cursor: pointer;
+}
