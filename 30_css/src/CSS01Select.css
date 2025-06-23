@@ -1,0 +1,29 @@
+/* 标签选择器 */
+div {
+  color: red;
+}
+
+/* 类选择器 */
+.box {
+  border: 1px solid #333;
+}
+
+/* id选择器 */
+#header {
+  background: #eee;
+}
+
+/* 后代选择器 */
+ul li {
+  list-style: none;
+}
+
+/* 伪类选择器 */
+a:hover {
+  color: blue;
+}
+
+/* 属性选择器 */
+input[type="text"] {
+  border: 1px solid #ccc;
+}
