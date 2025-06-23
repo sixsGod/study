@@ -1,0 +1,23 @@
+/* 设置字体颜色 */
+color: #333; /* 可以使用十六进制颜色值、RGB、RGBA等 */ 
+
+/* 设置字体系列 */
+font-family: "微软雅黑", Arial, sans-serif;
+
+/* 设置字体大小 */
+font-size: 16px;
+
+/* 设置字体加粗 */
+font-weight: bold; /* 或 normal, 100~900 */
+
+/* 设置字体样式（斜体） */
+font-style: italic; /* 或 normal */
+
+/* 设置字体变形（小型大写字母等） */
+font-variant: small-caps;
+
+/* 设置行高 */
+line-height: 1.5;
+
+/* 综合写法（简写） */
+font: italic bold 16px/1.5 "微软雅黑", Arial, sans-serif;
