@@ -1,0 +1,19 @@
+/* 块级元素：独占一行，宽度默认100% */
+div {
+  display: block;
+}
+
+/* 行内元素：不换行，只占自身内容宽度 */
+span {
+  display: inline;
+}
+
+/* 行内块级元素：不换行，但可以设置宽高 */
+img {
+  display: inline-block;
+}
+
+/* 隐藏元素 */
+.hidden {
+  display: none;
+}
