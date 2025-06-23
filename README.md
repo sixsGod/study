@@ -22,6 +22,7 @@
 - [x] [MYSQL](sql/mysql)
 - [x] [ORACLE](sql/oracle)
 - [x] [DB2](sql/db2)
+- [x] [Postgres](sql/postgres)
 <hr>
 
 > [!tip]
