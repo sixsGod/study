@@ -1,0 +1,23 @@
+/* 设置文本颜色 */
+color: #333;
+
+/* 设置文本对齐方式 */
+text-align: center; /* left, right, justify */
+
+/* 设置文本装饰（如下划线） */
+text-decoration: underline; /* none, line-through, overline */
+
+/* 设置文本缩进 */
+text-indent: 2em;
+
+/* 设置字母间距 */
+letter-spacing: 2px;
+
+/* 设置单词间距 */
+word-spacing: 10px;
+
+/* 设置文本转换（大小写） */
+text-transform: uppercase; /* lowercase, capitalize */
+
+/* 设置文本阴影 */
+text-shadow: 2px 2px 5px #aaa;
