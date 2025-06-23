@@ -1,0 +1,35 @@
+/* 鼠标指针样式 */
+button {
+  cursor: pointer;
+}
+
+/* 禁止用户选择文本 */
+.noselect {
+  user-select: none;
+}
+
+/* 设置元素可调整大小 */
+textarea {
+  resize: both; /* none, horizontal, vertical */
+}
+
+/* 设置元素不可拖拽 */
+img {
+  -webkit-user-drag: none;
+}
+
+/* 设置元素外观（如按钮风格） */
+input[type="button"] {
+  appearance: button;
+  -webkit-appearance: button;
+}
+
+/* 设置滚动条样式（部分浏览器支持） */
+::-webkit-scrollbar {
+  width: 8px;
+  background: #eee;
+}
+::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 4px;
+}
