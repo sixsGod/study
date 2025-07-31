@@ -8,21 +8,16 @@
 ### 编程语言
 <hr>
 
+- [x] [SQL](00_sql)<br>
+- [ ] [BAT](01_bat)<br>
+- [x] [SHELL](02_shell)<br>
+- [x] [COBOL](03_cobol)<br>
 - [ ] [C](04_c)<br>
-- [ ] [C#](C#)<br>
-- [ ] [C++](C++)<br>
-- [x] [COBOL](COBOL)<br>
-- [ ] [VB](VB)<br>
-- [ ] [JAVA](java)<br>
-- [ ] [SWIFT](swift)<br>
-- [ ] [PYTHON](python)<br>
-- [x] [HTML](html)<br>
-- [ ] [CSS](css)<br>
-- [ ] [JAVASCRIPT](javascript)
-- [x] [MYSQL](sql/mysql)
-- [x] [ORACLE](sql/oracle)
-- [x] [DB2](sql/db2)
-- [x] [Postgres](sql/postgres)
+- [ ] [JAVA](05_java)<br>
+- [ ] [PYTHON](06_python)<br>
+- [x] [VBA](07_vba)<br>
+- [ ] [SWIFT](08_swift)<br>
+
 <hr>
 
 > [!tip]
