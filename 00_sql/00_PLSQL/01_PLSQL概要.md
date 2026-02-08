@@ -1,5 +1,7 @@
-## PL/SLQ
+## PL/SQL
 PL/SQL 是一种高性能的基于事务处理的语言，能运行在任何 ORACLE 环境中，支持所有数据处理命令。
+
+<img width="1441" height="673" alt="image" src="https://github.com/user-attachments/assets/2cabca43-67a3-4c24-ae37-530c9401b38f" />
 
 ## PL/SQL 块结构
 PL/SQL 是一种块结构的语言，组成 PL/SQL 程序的单元是逻辑块，一个 PL/SQL 程序包含了一个或多个逻辑块，每个块都可以划分为三个部分。
