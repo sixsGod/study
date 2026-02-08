@@ -15,6 +15,7 @@ PL/SQL 是一种块结构的语言，组成 PL/SQL 程序的单元是逻辑块�
  
 PL/SQL 块语法
 ```sql
+-- 如果需要看到代码的输出，需要执行“set serveroutput on”。
 [DECLARE]
 ---declaration statements
 BEGIN
